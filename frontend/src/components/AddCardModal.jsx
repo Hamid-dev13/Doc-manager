@@ -32,7 +32,7 @@ export default function AddCardModal({ onClose, onCreate }) {
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div className="modal-title" id="modal-title">Nouveau composant</div>
+        <div className="modal-title" id="modal-title">Nouvelle ligne de coût</div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label" htmlFor="card-title">Titre *</label>
@@ -42,7 +42,7 @@ export default function AddCardModal({ onClose, onCreate }) {
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder="ESP32-S3, Capteur DHT22…"
+              placeholder="Ex : MacBook Pro, Licence Adobe, Vol Paris…"
               autoFocus
             />
             {error && <span className="form-error">{error}</span>}
@@ -55,7 +55,7 @@ export default function AddCardModal({ onClose, onCreate }) {
               className="form-textarea"
               value={description}
               onChange={e => setDescription(e.target.value)}
-              placeholder="Caractéristiques, lien source, notes…"
+              placeholder="Fournisseur, justification, lien devis…"
             />
           </div>
 

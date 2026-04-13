@@ -10,12 +10,12 @@ export default function HomeView({ pages, onNavigate, onCreatePage, onDeletePage
       <header>
         <div className="header-actions">
           <div>
-            <div className="tag">Workspace</div>
-            <h1>Doc <span>Manager</span></h1>
-            <p className="subtitle">Gérez vos pages et leur contenu</p>
+            <div className="tag">Budget Tracker</div>
+            <h1>Super <span>Cost Tracker</span></h1>
+            <p className="subtitle">Suivez et estimez vos budgets par catégorie</p>
           </div>
           <button className="btn-add" onClick={() => setShowModal(true)}>
-            + Nouvelle page
+            + Nouveau budget
           </button>
         </div>
         <div className="stats">
@@ -25,14 +25,14 @@ export default function HomeView({ pages, onNavigate, onCreatePage, onDeletePage
           </div>
           <div className="stat">
             <span className="stat-value">{pages.reduce((s, p) => s + (p.card_count || 0), 0)}</span>
-            <span className="stat-label">Items total</span>
+            <span className="stat-label">Lignes total</span>
           </div>
         </div>
       </header>
 
       <div className="grid">
         {pages.length === 0 ? (
-          <div className="grid-empty">Aucune page — cliquez sur "+ Nouvelle page" pour commencer</div>
+          <div className="grid-empty">Aucun budget — cliquez sur "+ Nouveau budget" pour commencer</div>
         ) : (
           pages.map(page => (
             <PageCard

@@ -5,7 +5,7 @@ export default function CardGrid({ cards, onDelete }) {
     <div className="grid">
       {cards.length === 0 ? (
         <div className="grid-empty">
-          Aucun composant — cliquez sur &laquo; + Ajouter &raquo; pour commencer
+          Aucune ligne — cliquez sur &laquo; + Ajouter &raquo; pour commencer
         </div>
       ) : (
         cards.map((card, i) => (

@@ -1,6 +1,14 @@
-# Doc Manager
+# Super Cost Tracker
 
-Application web de gestion de documents organisés en pages. Chaque page contient une grille de cards avec titre, description et prix. Les titres et descriptions de pages sont éditables directement en cliquant dessus.
+Application web de suivi et d'estimation de budgets. Organisez vos dépenses en budgets distincts, ajoutez des lignes de coût avec titre, description et prix, et consultez les totaux en temps réel.
+
+## Fonctionnalites
+
+- Creer plusieurs budgets (materiel, deplacement, logiciels, etc.)
+- Ajouter des lignes de cout dans chaque budget
+- Titre et description du budget editables en un clic
+- Calcul automatique : total, cout moyen, nombre de lignes
+- Suppression d'un budget avec toutes ses lignes
 
 ## Stack
 
@@ -16,7 +24,7 @@ docker compose up --build
 
 L'application est accessible sur `http://localhost:3057`.
 
-La base de données est persistée dans `backend/data/sqlite.db` via un volume Docker.
+La base de donnees est persistee dans `backend/data/sqlite.db` via un volume Docker.
 
 ## Structure
 
@@ -24,15 +32,15 @@ La base de données est persistée dans `backend/data/sqlite.db` via un volume D
 doc-manager/
 ├── backend/
 │   ├── src/
-│   │   ├── server.js          # Point d'entrée Express
+│   │   ├── server.js          # Point d'entree Express
 │   │   ├── db.js              # Init SQLite + migrations
 │   │   └── routes/
-│   │       ├── pages.js       # CRUD pages
-│   │       └── cards.js       # CRUD cards (par page)
+│   │       ├── pages.js       # CRUD budgets
+│   │       └── cards.js       # CRUD lignes de cout
 │   └── data/                  # Volume SQLite (gitignore)
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx            # Navigation home / vue page
+│   │   ├── App.jsx            # Navigation accueil / vue budget
 │   │   ├── hooks/
 │   │   │   ├── usePages.js
 │   │   │   └── useCards.js
@@ -44,43 +52,41 @@ doc-manager/
 │   │   │   ├── CardGrid.jsx
 │   │   │   └── DocCard.jsx
 │   │   └── views/
-│   │       ├── HomeView.jsx   # Grille des pages
-│   │       └── PageView.jsx   # Vue d'une page
+│   │       ├── HomeView.jsx   # Grille des budgets
+│   │       └── PageView.jsx   # Vue d'un budget
 │   └── nginx.conf
 ├── docker-compose.yml
-└── nginx-vps.conf             # Config Nginx pour deploiement VPS
+└── nginx-vps.conf
 ```
 
 ## API
 
-### Pages
+### Budgets
 
 | Methode | Route | Description |
 |---------|-------|-------------|
-| GET | /api/pages | Liste toutes les pages avec le nombre de cards |
-| POST | /api/pages | Cree une page (`title`, `description`) |
+| GET | /api/pages | Liste tous les budgets avec le nombre de lignes |
+| POST | /api/pages | Cree un budget (`title`, `description`) |
 | PATCH | /api/pages/:id | Modifie `title` et/ou `description` |
-| DELETE | /api/pages/:id | Supprime la page et toutes ses cards |
+| DELETE | /api/pages/:id | Supprime le budget et toutes ses lignes |
 
-### Cards
+### Lignes de cout
 
 | Methode | Route | Description |
 |---------|-------|-------------|
-| GET | /api/pages/:pageId/cards | Liste les cards d'une page |
-| POST | /api/pages/:pageId/cards | Cree une card (`title`, `description`, `price`) |
-| DELETE | /api/cards/:id | Supprime une card |
+| GET | /api/pages/:pageId/cards | Liste les lignes d'un budget |
+| POST | /api/pages/:pageId/cards | Cree une ligne (`title`, `description`, `price`) |
+| DELETE | /api/cards/:id | Supprime une ligne |
 
 ## Deploiement VPS
 
-Le fichier `nginx-vps.conf` contient un exemple de configuration Nginx a placer dans `/etc/nginx/sites-available/` sur le serveur. Remplacer `doc-manager.example.com` par le vrai domaine.
+Le fichier `nginx-vps.conf` contient un exemple de configuration Nginx a placer dans `/etc/nginx/sites-available/`. Remplacer `doc-manager.example.com` par le vrai domaine.
 
 Pour HTTPS, utiliser certbot :
 
 ```bash
-certbot --nginx -d doc-manager.example.com
+certbot --nginx -d votre-domaine.com
 ```
-
-Puis decommenter le bloc HTTPS dans `nginx-vps.conf`.
 
 ## Developpement local (sans Docker)
 

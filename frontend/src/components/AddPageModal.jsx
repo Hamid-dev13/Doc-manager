@@ -23,7 +23,7 @@ export default function AddPageModal({ onClose, onCreate }) {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-title">Nouvelle page</div>
+        <div className="modal-title">Nouveau budget</div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Titre</label>
@@ -31,7 +31,7 @@ export default function AddPageModal({ onClose, onCreate }) {
               className="form-input"
               value={title}
               onChange={e => { setTitle(e.target.value); setError(''); }}
-              placeholder="Nom de la page"
+              placeholder="Ex : Matériel serveur, Déplacement client…"
               autoFocus
             />
             {error && <div className="form-error">{error}</div>}
@@ -42,7 +42,7 @@ export default function AddPageModal({ onClose, onCreate }) {
               className="form-textarea"
               value={description}
               onChange={e => setDescription(e.target.value)}
-              placeholder="Description optionnelle"
+              placeholder="Contexte, objectif, contraintes budgétaires…"
             />
           </div>
           <div className="modal-actions">
