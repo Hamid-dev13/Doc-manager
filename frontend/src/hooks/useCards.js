@@ -2,15 +2,16 @@ import { useState, useEffect, useCallback } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-export function useCards() {
+export function useCards(pageId) {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchCards = useCallback(async () => {
+    if (!pageId) { setLoading(false); return; }
     try {
       setError(null);
-      const res = await fetch(`${API_URL}/cards`);
+      const res = await fetch(`${API_URL}/pages/${pageId}/cards`);
       if (!res.ok) throw new Error('Failed to fetch cards');
       setCards(await res.json());
     } catch (err) {
@@ -18,12 +19,12 @@ export function useCards() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [pageId]);
 
   useEffect(() => { fetchCards(); }, [fetchCards]);
 
   const createCard = useCallback(async ({ title, description, price }) => {
-    const res = await fetch(`${API_URL}/cards`, {
+    const res = await fetch(`${API_URL}/pages/${pageId}/cards`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, description, price }),
@@ -35,7 +36,7 @@ export function useCards() {
     const card = await res.json();
     setCards(prev => [card, ...prev]);
     return card;
-  }, []);
+  }, [pageId]);
 
   const deleteCard = useCallback(async (id) => {
     const res = await fetch(`${API_URL}/cards/${id}`, { method: 'DELETE' });

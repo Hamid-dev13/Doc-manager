@@ -1,39 +1,40 @@
 import { useState } from 'react';
-import { useCards } from './hooks/useCards.js';
-import Header from './components/Header.jsx';
-import CardGrid from './components/CardGrid.jsx';
-import AddCardModal from './components/AddCardModal.jsx';
+import { usePages } from './hooks/usePages.js';
+import HomeView from './views/HomeView.jsx';
+import PageView from './views/PageView.jsx';
 
 export default function App() {
-  const { cards, loading, error, createCard, deleteCard } = useCards();
-  const [showModal, setShowModal] = useState(false);
+  const { pages, loading, error, createPage, updatePage, deletePage, incrementCardCount, decrementCardCount } = usePages();
+  const [currentPageId, setCurrentPageId] = useState(null);
 
   if (loading) {
-    return (
-      <div className="container">
-        <div className="state-message">Chargement…</div>
-      </div>
-    );
+    return <div className="container"><div className="state-message">Chargement…</div></div>;
   }
 
   if (error) {
+    return <div className="container"><div className="state-message">Erreur : {error}</div></div>;
+  }
+
+  if (currentPageId !== null) {
+    const page = pages.find(p => p.id === currentPageId);
+    if (!page) { setCurrentPageId(null); return null; }
     return (
-      <div className="container">
-        <div className="state-message">Erreur : {error}</div>
-      </div>
+      <PageView
+        page={page}
+        onBack={() => setCurrentPageId(null)}
+        onUpdatePage={updatePage}
+        onCardCreated={incrementCardCount}
+        onCardDeleted={decrementCardCount}
+      />
     );
   }
 
   return (
-    <div className="container">
-      <Header cards={cards} onAddClick={() => setShowModal(true)} />
-      <CardGrid cards={cards} onDelete={deleteCard} />
-      {showModal && (
-        <AddCardModal
-          onClose={() => setShowModal(false)}
-          onCreate={createCard}
-        />
-      )}
-    </div>
+    <HomeView
+      pages={pages}
+      onNavigate={setCurrentPageId}
+      onCreatePage={createPage}
+      onDeletePage={deletePage}
+    />
   );
 }

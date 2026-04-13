@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const pagesRouter = require('./routes/pages');
 const cardsRouter = require('./routes/cards');
 
 const app = express();
@@ -10,7 +11,8 @@ app.use(express.json());
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-app.use('/api/cards', cardsRouter);
+app.use('/api/pages', pagesRouter);
+app.use('/api', cardsRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
