@@ -21,11 +21,7 @@ export default function HomeView({ pages, onNavigate, onCreatePage, onDeletePage
         <div className="stats">
           <div className="stat">
             <span className="stat-value">{pages.length}</span>
-            <span className="stat-label">Pages</span>
-          </div>
-          <div className="stat">
-            <span className="stat-value">{pages.reduce((s, p) => s + (p.card_count || 0), 0)}</span>
-            <span className="stat-label">Lignes total</span>
+            <span className="stat-label">Budgets</span>
           </div>
         </div>
       </header>
